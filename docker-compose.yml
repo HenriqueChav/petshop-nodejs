@@ -1,0 +1,15 @@
+services:
+  node:
+    build: 
+      dockerfile: my-node.dockerfile
+      context: .
+    image: henriquec/my-nodejs
+    container_name: node-container
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - my-network
+networks:
+  my-network:
+    driver: bridge
