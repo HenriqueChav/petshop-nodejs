@@ -1,7 +1,7 @@
 FROM node:latest
 LABEL maintainer="Henrique C. Lopes"
-COPY . /var/www
-WORKDIR /var/www
-ENTRYPOINT ["npm", "install"]
-RUN ["npm", "start"]
+WORKDIR /usr/app
+COPY ./app/package.json /usr/app
+ENTRYPOINT npm start
+RUN npm install
 EXPOSE 3000

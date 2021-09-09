@@ -1,15 +1,34 @@
+version: "3.9"
+
 services:
-  node:
+  mysqldb:
+    image: mysql
+    container_name: mysql-container
+    environment: 
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: agenda-petshop
+    ports: 
+      - "3306:3306"
+    networks: 
+      - my-network
+    volumes: 
+      - "./app/infraestrutura/dbdata/:/var/lib/mysql"
+
+  node-app:
     build: 
-      dockerfile: my-node.dockerfile
       context: .
-    image: henriquec/my-nodejs
+      dockerfile: my-node.dockerfile
+    image: henriquechav/my-nodejs
+    depends_on: 
+      - mysqldb
     container_name: node-container
     ports:
-      - "80:80"
-      - "443:443"
+      - "3000:3000"
     networks:
       - my-network
+    volumes: 
+      - "./app/:/usr/app"
+
 networks:
   my-network:
     driver: bridge
